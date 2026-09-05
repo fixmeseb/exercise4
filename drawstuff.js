@@ -507,22 +507,39 @@ function projectPoly(imagedata,poly,view) {
 function main() {
 
     // Get the canvas, context, and image data
-    var canvas = document.getElementById("viewport"); 
-    var context = canvas.getContext("2d");
+    var canvas1 = document.getElementById("viewport-1"); 
+    var canvas2 = document.getElementById("viewport-2")
+    var context = canvas1.getContext("2d");
+    var context2 = canvas2.getContext("2d")
     var w = context.canvas.width; // as set in html
     var h = context.canvas.height;  // as set in html
     var imagedata = context.createImageData(w,h);
+    var imagedata2 = context2.createImageData(context2.canvas.width,context2.canvas.height)
     
     // define polygon and view
     var testEye = new Vector(0,0,0);
+    var testEye2 = new Vector(0,0,0);
+
     var testAt = Vector.subtract(new Vector(0,0,10),testEye);
-    var view = {eye:testEye, at:testAt, up:new Vector(0,1,0)};
-    var poly = [{x:-5,y:5,z:10,c:new Color(255,0,0,255)}, {x:5,y:5,z:10,c:new Color(0,255,0,255)}, 
-                {x:5,y:-5,z:10,c:new Color(0,0,0,255)}, {x:-5,y:-5,z:10,c:new Color(0,0,255,255)}];
+    var testAt2 = Vector.subtract(new Vector(0,0,-10),testEye);
+
+    var view = {eye:testEye2, at:testAt2, up:new Vector(-1,-1,0)};
+    var poly = [{x:5,y:-5,z:-10,c:new Color(255,0,0,255)}, {x:-5,y:-5,z:-10,c:new Color(0,255,0,255)},
+                {x:-5,y:5,z:-10,c:new Color(0,0,0,255)}, {x:5,y:5,z:-10,c:new Color(0,0,255,255)}];
+
+    var view2 = {eye:testEye, at:testAt, up:new Vector(0,1,0)};
+    var poly2 = [{x:-5,y:5,z:10,c:new Color(255,0,0,255)}, {x:5,y:5,z:15,c:new Color(0,255,0,255)}, 
+                //red, green
+                {x:5,y:-5,z:15,c:new Color(0,0,0,255)}, {x:-4,y:-5,z:10,c:new Color(0,0,255,255)}];
+                //black, blue
     
     // Define and render a rectangle in 2D with colors and coords at corners
     projectPoly(imagedata,poly,view);
     fillPoly(imagedata,poly);
+
+    projectPoly(imagedata2,poly2,view2);
+    fillPoly(imagedata2,poly2);
     
     context.putImageData(imagedata, 0, 0); // display the image in the context
+    context2.putImageData(imagedata2, 0, 0)
 }
